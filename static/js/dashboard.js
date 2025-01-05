@@ -1,6 +1,6 @@
 document.getElementById('getDataBtn').addEventListener('click', function() {
     // API endpoint
-    const apiUrl = 'https://scan-app-a3872b370d3e.herokuapp.com/download-zip/'; // O'zingizning haqiqiy API URL manzilingizni yozing
+    const apiUrl = 'https://response-app-f961b14d1345.herokuapp.com/download-zip/'; // O'zingizning haqiqiy API URL manzilingizni yozing
 
     fetch(apiUrl)
         .then(response => {
