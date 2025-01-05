@@ -140,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 };
             });
+            console.log(requestData)
             const postResponse = await fetch("https://scan-app-a3872b370d3e.herokuapp.com/api/questions", {
                 method: "POST",
                 headers: {
