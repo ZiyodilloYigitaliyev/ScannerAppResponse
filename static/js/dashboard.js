@@ -133,11 +133,27 @@ document.addEventListener('DOMContentLoaded', function() {
                         num: {
                             additional_value: additional_value,
                         },
-                         ...data
-                        
+                         data: {
+                            [category]: items.map((item) => ({
+                            category: category,  // Tegishli category qo'yiladi
+                            subject: item.subject,
+                            text: item.text,
+                            options: item.options,
+                            true_answer: item.true_answer,
+                            image: item.image || null,
+                         }))
+                        }
                     };
                 });
-
+                const finalData = requestData.map((item) => {
+                    const categoryKey = Object.keys(item.data)[0]; // Kategoriya nomini olish
+                    return {
+                        num: item.num,
+                        data: {
+                            [categoryKey]: item.data[categoryKey],
+                        }
+                    };
+                });
                 console.log("Formatlangan ma'lumot:", requestData);
 
                 // Ma'lumotlarni yuborish
