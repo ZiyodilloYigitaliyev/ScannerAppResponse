@@ -125,12 +125,21 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!response.ok) throw new Error("Savollarni olishda xatolik yuz berdi.");
             const data = await response.json();
 
-            const requestData = [
-                {
+            const requestData = Object.keys(data.data).map(category => {
+                return {
                     num: { additional_value: parseInt(additional_value) },
-                    data
-                },
-            ];
+                    data: {
+                        [category]: data.data[category].map(item => ({
+                            category: item.category,
+                            subject: item.subject,
+                            text: item.text,
+                            options: item.options,
+                            true_answer: item.true_answer,
+                            image: item.image
+                        }))
+                    }
+                };
+            });
             const postResponse = await fetch("https://scan-app-a3872b370d3e.herokuapp.com/api/questions", {
                 method: "POST",
                 headers: {
