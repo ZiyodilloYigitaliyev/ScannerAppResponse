@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const requestData = [
                 {
                     num: { additional_value: parseInt(additional_value) },
-                    ...data
+                    data
                 },
             ];
             const postResponse = await fetch("https://scan-app-a3872b370d3e.herokuapp.com/api/questions", {
