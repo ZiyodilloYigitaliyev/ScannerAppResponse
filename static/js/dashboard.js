@@ -132,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     data: {
                         [category]: items.map(item => ({
-                            id: item.id, // `id` mavjud bo'lishi kerak
                             category: item.category,
                             subject: item.subject,
                             text: item.text,
