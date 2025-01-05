@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 Object.entries(data.data).forEach(([category, items]) => {
                 // Har bir kategoriya uchun data tuzish
                 const categoryData = {
-                    [category]: items.map((item, index) => ({
+                    [category]: items.map((item) => ({
                         category: category, // Kategoriya nomi
                         subject: item.subject,
                         text: item.text,
