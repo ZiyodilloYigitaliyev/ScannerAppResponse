@@ -128,41 +128,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
 
                 // Ma'lumotlarni formatlash
-                const requestData = Object.entries(data.data).map(([category, items]) => {
-                    return {
-                        num: {
-                            additional_value: additional_value,
-                        },
-                         data: {
-                            [category]: items.map((item) => ({
-                            category: category,  // Tegishli category qo'yiladi
-                            subject: item.subject,
-                            text: item.text,
-                            options: item.options,
-                            true_answer: item.true_answer,
-                            image: item.image || null,
-                         }))
-                        }
-                    };
-                });
-                const finalData = requestData.map((item) => {
-                    const categoryKey = Object.keys(item.data)[0]; // Kategoriya nomini olish
-                    return {
-                        num: item.num,
-                        data: {
-                            [categoryKey]: item.data[categoryKey],
-                        }
-                    };
-                });
-                console.log("Formatlangan ma'lumot:", requestData);
+                const requestData = [];
+                // Har bir kategoriya uchun alohida obyekt yaratish
+                Object.entries(data.data).forEach(([category, items]) => {
+                // Har bir kategoriya uchun data tuzish
+                const categoryData = {
+                    [category]: items.map((item, index) => ({
+                        category: category, // Kategoriya nomi
+                        subject: item.subject,
+                        text: item.text,
+                        options: item.options,
+                        true_answer: item.true_answer,
+                        image: item.image || null, // Tasvir bo'lsa, null qo'shadi
+                    }))
+                };
 
+                requestData.push(categoryData);
+            });
+
+            // RequestData ni formatlash: barcha kategoriya va savollarni
+            const finalData = {
+                num: {
+                    additional_value: additional_value
+                },
+                data: requestData.reduce((acc, curr) => ({ ...acc, ...curr }), {})
+            };
+                console.log("Formatlangan ma'lumot:", finalData);
                 // Ma'lumotlarni yuborish
                 const postResponse = await fetch("https://scan-app-a3872b370d3e.herokuapp.com/api/questions", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(requestData),
+                    body: JSON.stringify(finalData),
                 });
 
                 if (!postResponse.ok) throw new Error("POST so'rovi muvaffaqiyatsiz bo'ldi.");
