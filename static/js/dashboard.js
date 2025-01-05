@@ -121,38 +121,47 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const response = await fetch("https://create-test-app-100ceac94608.herokuapp.com/questions/");
-            if (!response.ok) throw new Error("Savollarni olishda xatolik yuz berdi.");
-            const data = await response.json();
+            try {
+                // Ma'lumotlarni olish
+                const response = await fetch("https://create-test-app-100ceac94608.herokuapp.com/questions/");
+                if (!response.ok) throw new Error("Savollarni olishda xatolik yuz berdi.");
+                const data = await response.json();
 
-            const requestData = Object.entries(data.data).map(([category, items]) => {
-                return {
-                    num: {
-                        additional_value: additional_value,
+                // Ma'lumotlarni formatlash
+                const requestData = Object.entries(data.data).map(([category, items]) => {
+                    return {
+                        num: {
+                            additional_value: additional_value,
+                        },
+                        data: {
+                            [category]: items.map(item => ({
+                                category: item.category,
+                                subject: item.subject,
+                                text: item.text,
+                                options: item.options,
+                                true_answer: item.true_answer,
+                                image: item.image,
+                            }))
+                        }
+                    };
+                });
+
+                console.log("Formatlangan ma'lumot:", requestData);
+
+                // Ma'lumotlarni yuborish
+                const postResponse = await fetch("https://scan-app-a3872b370d3e.herokuapp.com/api/questions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
                     },
-                    data: {
-                        [category]: items.map(item => ({
-                            category: item.category,
-                            subject: item.subject,
-                            text: item.text,
-                            options: item.options,
-                            true_answer: item.true_answer,
-                            image: item.image,
-                        }))
-                    }
-                };
-            });
-            console.log(requestData)
-            const postResponse = await fetch("https://scan-app-a3872b370d3e.herokuapp.com/api/questions", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(requestData),
+                    body: JSON.stringify(requestData),
+                });
 
-            });
-
-            if (!postResponse.ok) throw new Error("Savollarni yuborishda xatolik yuz berdi.");
+                if (!postResponse.ok) throw new Error("POST so'rovi muvaffaqiyatsiz bo'ldi.");
+                console.log("POST muvaffaqiyatli bajarildi.");
+            } catch (error) {
+                console.error("Xatolik:", error.message);
+            }
 
             alert("Savollar muvaffaqiyatli yuborildi!");
 
