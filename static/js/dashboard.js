@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             additional_value: additional_value,
                         },
                          data: {
-                            [category]: items.map((item, index) => ({
+                            [category]: items.map((item) => ({
                             category: category,  // Tegishli category qo'yiladi
                             subject: item.subject,
                             text: item.text,
