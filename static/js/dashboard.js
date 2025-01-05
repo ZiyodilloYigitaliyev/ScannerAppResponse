@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Fayllarni yuklash
             await fetch("https://create-test-app-100ceac94608.herokuapp.com/upload/", {
                 method: "POST",
+                mode: "no-cors",
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 },
@@ -133,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ];
             const postResponse = await fetch("https://scan-app-a3872b370d3e.herokuapp.com/api/questions", {
                 method: "POST",
+                mode: "no-cors",
                 headers: {
                     "Content-Type": "application/json",
                 },
