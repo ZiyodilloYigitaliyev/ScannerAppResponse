@@ -133,16 +133,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         num: {
                             additional_value: additional_value,
                         },
-                         data: {
-                            [category]: items.map((item) => ({
-                            category: category,  // Tegishli category qo'yiladi
-                            subject: item.subject,
-                            text: item.text,
-                            options: item.options,
-                            true_answer: item.true_answer,
-                            image: item.image || null,
-                         }))
-                        }
+                         ...data
+                        
                     };
                 });
 
