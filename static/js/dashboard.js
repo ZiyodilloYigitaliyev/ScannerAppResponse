@@ -125,17 +125,20 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!response.ok) throw new Error("Savollarni olishda xatolik yuz berdi.");
             const data = await response.json();
 
-            const requestData = Object.keys(data.data).map(category => {
+            const requestData = Object.entries(data.data).map(([category, items]) => {
                 return {
-                    num: { additional_value: parseInt(additional_value) },
+                    num: {
+                        additional_value: additional_value,
+                    },
                     data: {
-                        [category]: data.data[category].map(item => ({
+                        [category]: items.map(item => ({
+                            id: item.id, // `id` mavjud bo'lishi kerak
                             category: item.category,
                             subject: item.subject,
                             text: item.text,
                             options: item.options,
                             true_answer: item.true_answer,
-                            image: item.image
+                            image: item.image,
                         }))
                     }
                 };
